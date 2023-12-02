@@ -12,12 +12,17 @@ export const BlogContext = createContext({} as BlogContextType)
 export function BlogProvider({ children }: BlogProviderProps) {
   const [posts, setPosts] = useState<Post[]>([])
   const [postSelected, setPostSelected] = useState<Post>({} as Post)
+  const [loadingData, setLoadingData] = useState<boolean>(false)
 
   const fetchPosts = useCallback(async (query?: string) => {
+    setLoadingData((state) => {
+      state = true
+      return state
+    })
+
     const q = query !== undefined ? query : ''
     const uri = `${q} repo:dlmoraes/github-blog-ignite`
     const queryString = '?q=' + encodeURIComponent(uri)
-    console.log(queryString)
 
     const response = await api.get(`search/issues${queryString}`)
 
@@ -34,6 +39,11 @@ export function BlogProvider({ children }: BlogProviderProps) {
     }) as Post[]
 
     setPosts(posts)
+
+    setLoadingData((state) => {
+      state = false
+      return state
+    })
   }, [])
 
   useEffect(() => {
@@ -50,6 +60,7 @@ export function BlogProvider({ children }: BlogProviderProps) {
       value={{
         posts,
         postSelected,
+        loadingData,
         fetchPosts,
         handleSetPost,
       }}

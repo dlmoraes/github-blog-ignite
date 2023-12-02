@@ -45,7 +45,6 @@ export const PostHeaderContent = styled.div`
     font-weight: 700;
     font-size: 1.5rem;
     line-height: 1.3;
-    width: 53%;
   }
 
   ul {
@@ -89,11 +88,12 @@ export const PostHeaderContent = styled.div`
 
 export const PostContent = styled.div`
   margin-top: 2.5rem;
+  padding: 0 1.6rem;
+  line-height: 1.6;
 
-  div {
-    margin-top: 1.5rem;
-    padding: 1rem;
-    border-radius: 2px;
-    background: ${(props) => props.theme['base-post']};
+  a {
+    text-decoration: none;
+    color: ${(props) => props.theme['base-text']};
+    font-weight: 600;
   }
 `
