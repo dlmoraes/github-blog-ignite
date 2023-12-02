@@ -5,6 +5,7 @@ import {
   BlogProviderProps,
   Post,
   PostResponse,
+  User,
 } from './@interfaces'
 
 export const BlogContext = createContext({} as BlogContextType)
@@ -13,6 +14,30 @@ export function BlogProvider({ children }: BlogProviderProps) {
   const [posts, setPosts] = useState<Post[]>([])
   const [postSelected, setPostSelected] = useState<Post>({} as Post)
   const [loadingData, setLoadingData] = useState<boolean>(false)
+  const [user, setUser] = useState<User>({} as User)
+
+  const fetchUser = useCallback(async () => {
+    const { data } = await api.get(`/users/dlmoraes`)
+    const {
+      name,
+      login,
+      avatar_url: avatarUrl,
+      bio,
+      company,
+      following,
+      html_url: htmlUrl,
+    } = data
+
+    setUser({
+      name,
+      login,
+      avatarUrl,
+      bio,
+      company,
+      following,
+      htmlUrl,
+    })
+  }, [])
 
   const fetchPosts = useCallback(async (query?: string) => {
     setLoadingData((state) => {
@@ -40,19 +65,21 @@ export function BlogProvider({ children }: BlogProviderProps) {
 
     setPosts(posts)
 
-    setLoadingData((state) => {
-      state = false
-      return state
-    })
+    setTimeout(() => {
+      setLoadingData((state) => {
+        state = false
+        return state
+      })
+    }, 1000)
   }, [])
 
   useEffect(() => {
     fetchPosts()
-  }, [fetchPosts])
+    fetchUser()
+  }, [fetchPosts, fetchUser])
 
   const handleSetPost = (post: Post) => {
     setPostSelected(post)
-    console.log(post)
   }
 
   return (
@@ -60,6 +87,7 @@ export function BlogProvider({ children }: BlogProviderProps) {
       value={{
         posts,
         postSelected,
+        user,
         loadingData,
         fetchPosts,
         handleSetPost,

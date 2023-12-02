@@ -29,6 +29,7 @@ export interface Post {
 export interface BlogContextType {
   posts: Post[]
   postSelected: Post
+  user: User
   loadingData: boolean
   fetchPosts: (query?: string) => Promise<void>
   handleSetPost: (post: Post) => void

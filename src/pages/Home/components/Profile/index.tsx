@@ -5,40 +5,12 @@ import {
   faUserGroup,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { useCallback, useEffect, useState } from 'react'
-import { User } from '../../../../context/@interfaces'
-import { api } from '../../../../lib/axios'
+import { useContext } from 'react'
+import { BlogContext } from '../../../../context/BlogContext'
 import { ProfileContainer, ProfileContent } from './styles'
 
 export function Profile() {
-  const [user, setUser] = useState<User>({} as User)
-
-  const fetchUser = useCallback(async () => {
-    const { data } = await api.get(`/users/dlmoraes`)
-    const {
-      name,
-      login,
-      avatar_url: avatarUrl,
-      bio,
-      company,
-      following,
-      html_url: htmlUrl,
-    } = data
-
-    setUser({
-      name,
-      login,
-      avatarUrl,
-      bio,
-      company,
-      following,
-      htmlUrl,
-    })
-  }, [])
-
-  useEffect(() => {
-    fetchUser()
-  }, [fetchUser])
+  const { user } = useContext(BlogContext)
 
   return (
     <ProfileContainer>
