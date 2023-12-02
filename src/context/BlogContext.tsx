@@ -53,13 +53,22 @@ export function BlogProvider({ children }: BlogProviderProps) {
 
     const { items } = response.data
     const posts = items.map((item: PostResponse) => {
-      const { id, title, body, created_at: createdAt, user } = item
+      const { id, title, body, created_at: createdAt, html_url: htmlUrl } = item
+      const responseUser = item.user
+      const { login, company, following } = responseUser
+      const user = {
+        login,
+        company,
+        following,
+      } as User
+
       return {
         id,
         title,
         body,
         createdAt,
         user,
+        htmlUrl,
       }
     }) as Post[]
 
@@ -75,8 +84,11 @@ export function BlogProvider({ children }: BlogProviderProps) {
 
   useEffect(() => {
     fetchPosts()
+  }, [fetchPosts])
+
+  useEffect(() => {
     fetchUser()
-  }, [fetchPosts, fetchUser])
+  }, [fetchUser])
 
   const handleSetPost = (post: Post) => {
     setPostSelected(post)

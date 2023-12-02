@@ -21,6 +21,8 @@ import {
 export function Post() {
   const { postSelected } = useContext(BlogContext)
 
+  console.log(postSelected)
+
   function LinkRenderer(props: React.AnchorHTMLAttributes<HTMLAnchorElement>) {
     return (
       <a href={props.href} target="_blank" rel="noreferrer">
@@ -39,11 +41,7 @@ export function Post() {
                 <NavLink to="/">
                   <FontAwesomeIcon icon={faChevronLeft} /> VOLTAR
                 </NavLink>
-                <a
-                  href="https://github.com/dlmoraes"
-                  target="_blank"
-                  rel="noreferrer"
-                >
+                <a href={postSelected.htmlUrl} target="_blank" rel="noreferrer">
                   VER NO GITHUB
                   <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
                 </a>

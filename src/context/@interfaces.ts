@@ -16,6 +16,7 @@ export interface PostResponse {
   body: string
   created_at: string
   user: User
+  html_url: string
 }
 
 export interface Post {
@@ -24,6 +25,7 @@ export interface Post {
   body: string
   createdAt: string
   user: User
+  htmlUrl: string
 }
 
 export interface BlogContextType {
